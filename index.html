@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>❤️ Love Sudoku Puzzle ❤️</title>
+<style>
+body {
+  font-family: 'Arial', sans-serif;
+  background: #fff0f5;
+  text-align: center;
+  padding: 10px;
+}
+h1 { color: #d63384; margin-bottom: 5px; }
+#puzzle {
+  display: grid;
+  grid-template-rows: repeat(10, 40px);
+  grid-template-columns: repeat(10, 40px);
+  gap: 2px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.cell {
+  width: 38px;
+  height: 38px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+.cell.correct { background: #d1f7d6; border-color: #28a745; }
+.cell.wrong { background: #f8d7da; border-color: #dc3545; }
+.cell.black { background: #444; border-color: #444; pointer-events: none; }
+.cell.grey { background: #ccc; }
+.cell.prefill { background: #fff; font-weight: bold; pointer-events: none; }
+button.hint {
+  margin: 2px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #ffc107;
+}
+#clues { text-align: left; max-width: 600px; margin: auto; }
+#clues h3 { margin-bottom: 5px; }
+.popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 80%;
+  max-width: 300px;
+  margin: 150px auto;
+}
+</style>
+</head>
+<body>
+
+<h1>❤️ Love Sudoku Puzzle ❤️</h1>
+<p>Fill the grey cells with the correct letters 💌</p>
+
+<div id="puzzle"></div>
+
+<div id="clues">
+  <h3>Horizontal (Across) Clues:</h3>
+  <ul id="hClues"></ul>
+  <h3>Vertical (Down) Clues:</h3>
+  <ul id="vClues"></ul>
+</div>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <p id="hintText"></p>
+    <button onclick="closePopup()">🤗 Hug Given</button>
+  </div>
+</div>
+
+<script>
+// Grid size
+const ROWS=10, COLS=10;
+const grid=[];
+
+// Initialize grid
+for(let r=0;r<ROWS;r++){
+  grid[r]=[];
+  for(let c=0;c<COLS;c++){
+    const input=document.createElement("input");
+    input.classList.add("cell");
+    input.dataset.row=r;
+    input.dataset.col=c;
+    document.getElementById("puzzle").appendChild(input);
+    grid[r][c]={input:input,letter:null};
+  }
+}
+
+// Words with positions, direction, and pre-filled letters
+const words=[
+  {word:"YOU",row:0,col:2,dir:"H",clue:"The reason my bad days don’t last long",hint:"It’s you… always you 💕",prefill:[0]},
+  {word:"LOVE",row:0,col:2,dir:"V",clue:"The answer that connects everything",hint:"The answer is always love 💞",prefill:[1]},
+  {word:"LONGTALKS",row:3,col:0,dir:"H",clue:"Our favorite way to spend time together",hint:"No phones. Just us ☕💬",prefill:[0,3]},
+  {word:"CATALINAISLAND",row:5,col:0,dir:"H",clue:"The trip that changed everything for us",hint:"Ocean, memories, us 🌊💙",prefill:[0,4,8]},
+  {word:"SUBBU",row:3,col:5,dir:"V",clue:"The nickname only I use for you",hint:"Said with love 😘",prefill:[2]},
+  {word:"SAMBAR",row:7,col:2,dir:"H",clue:"Your favorite comfort food",hint:"Home in a bowl 🍲",prefill:[1]},
+  {word:"SILENCE",row:2,col:8,dir:"V",clue:"What you do when you’re stressed",hint:"Quiet strength 🤍",prefill:[3]},
+  {word:"US",row:0,col:0,dir:"H",clue:"What I see when I imagine my future",hint:"Together, always 🫶",prefill:[1]},
+  {word:"MARRYINGYOU",row:9,col:0,dir:"H",clue:"The best decision of my life",hint:"Forever started there 💍",prefill:[0,4,8]},
+  {word:"LISTEN",row:4,col:9,dir:"V",clue:"What you do when I’m upset",hint:"With patience and love 👂❤️",prefill:[0]},
+  {word:"TIME",row:8,col:5,dir:"H",clue:"What you give when I need it most",hint:"Your most precious gift ⏳",prefill:[2]},
+  {word:"ACTIONS",row:6,col:8,dir:"V",clue:"Your way of saying I care",hint:"You show it every day 💖",prefill:[1]}
+];
+
+// Fill words into grid
+words.forEach((w,idx)=>{
+  for(let i=0;i<w.word.length;i++){
+    let r=w.row+(w.dir==="V"?i:0);
+    let c=w.col+(w.dir==="H"?i:0);
+    const cell=grid[r][c];
+    cell.letter=w.word[i].toUpperCase();
+    if(w.prefill && w.prefill.includes(i)){
+      cell.input.value=w.word[i].toUpperCase();
+      cell.input.classList.add("prefill");
+    } else {
+      cell.input.classList.add("grey");
+    }
+  }
+});
+
+// Make non-letter cells black
+for(let r=0;r<ROWS;r++){
+  for(let c=0;c<COLS;c++){
+    if(!grid[r][c].letter){
+      grid[r][c].input.classList.add("black");
+      grid[r][c].input.disabled=true;
+    }
+  }
+}
+
+// Input checking
+document.querySelectorAll(".cell").forEach(input=>{
+  input.addEventListener("input",()=>{
+    const r=parseInt(input.dataset.row);
+    const c=parseInt(input.dataset.col);
+    const val=input.value.toUpperCase();
+    if(grid[r][c].letter){
+      if(val===grid[r][c].letter){
+        input.classList.remove("wrong");
+        input.classList.add("correct");
+      } else {
+        input.classList.remove("correct");
+        input.classList.add("wrong");
+      }
+      checkComplete();
+    } else input.value="";
+  });
+});
+
+// Clues
+const hCluesUL=document.getElementById("hClues");
+const vCluesUL=document.getElementById("vClues");
+words.forEach((w,idx)=>{
+  const li=document.createElement("li");
+  li.innerHTML=`<b>${idx+1}:</b> ${w.clue} <button class="hint" onclick="showHint(${idx})">Hint 💡</button>`;
+  if(w.dir==="H") hCluesUL.appendChild(li);
+  else vCluesUL.appendChild(li);
+});
+
+// Hint popup
+function showHint(idx){
+  document.getElementById("hintText").innerHTML="🤗 <b>Hug required!</b><br><br>"+words[idx].hint;
+  document.getElementById("popup").style.display="block";
+}
+function closePopup(){document.getElementById("popup").style.display="none";}
+
+// Completion check
+function checkComplete(){
+  const allDone=[...document.querySelectorAll(".cell")].every(input=>{
+    const r=parseInt(input.dataset.row);
+    const c=parseInt(input.dataset.col);
+    if(grid[r][c].letter) return input.value.toUpperCase()===grid[r][c].letter || input.classList.contains("prefill");
+    return true;
+  });
+  if(allDone){
+    document.getElementById("puzzle").innerHTML="";
+    document.getElementById("clues").innerHTML=`
+      <h2>🎉 Happyyy Birthday Babyyy 🎉</h2>
+      <p>
+      This is a small way to show my love for you 💖<br>
+      Every clue, every answer, every hug in this game<br>
+      is a piece of my heart made just for you 🫶<br><br>
+      Thank you for being <b>YOU</b>.<br>
+      I love you endlessly ❤️<br>
+      Now come here… real hug required 🤗💋
+      </p>
+    `;
+  }
+}
+</script>
+
+</body>
+</html>
