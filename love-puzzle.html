@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>❤️ Love Puzzle Game ❤️</title>
+<style>
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(#ffe6f0, #fff);
+  text-align: center;
+  padding: 20px;
+}
+h1 { color: #d63384; }
+.card {
+  background: white;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 15px;
+  max-width: 500px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.grid-row {
+  margin: 15px 0;
+}
+.letter-box {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 20px;
+  margin: 2px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.correct { background: #d1f7d6; border-color: #28a745; }
+.wrong { background: #f8d7da; border-color: #dc3545; }
+
+button {
+  margin: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.hint { background: #ffc107; }
+.result { font-weight: bold; margin-top: 10px; }
+
+/* Popup */
+.popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 80%;
+  max-width: 300px;
+  margin: 150px auto;
+}
+</style>
+</head>
+<body>
+
+<h1>❤️ Love Puzzle Game ❤️</h1>
+<p>Fill the boxes with the correct letters 💌</p>
+
+<div class="card" id="gameCard"></div>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <p id="hintText"></p>
+    <button onclick="closePopup()">🤗 Hug Given</button>
+  </div>
+</div>
+
+<script>
+const game = [
+  { q: "The reason my bad days don’t last long", a: "YOU", h: "It’s you… always you 💕" },
+  { q: "Our favorite way to spend time together", a: "LONG TALKS", h: "No phones. Just us ☕💬" },
+  { q: "The trip that changed everything for us", a: "CATALINA ISLAND", h: "Ocean, memories, us 🌊💙" },
+  { q: "The nickname only I use for you", a: "SUBBU", h: "Said with love 😘" },
+  { q: "Your favorite comfort food", a: "SAMBAR", h: "Home in a bowl 🍲" },
+  { q: "What you do when you’re stressed", a: "SILENCE", h: "Quiet strength 🤍" },
+  { q: "What I see when I imagine my future", a: "US", h: "Together, always 🫶" },
+  { q: "The best decision of my life", a: "MARRYING YOU", h: "Forever started there 💍" },
+  { q: "What you do when I’m upset", a: "LISTEN", h: "With patience and love 👂❤️" },
+  { q: "What you give when I need it most", a: "TIME", h: "Your most precious gift ⏳" },
+  { q: "Your way of saying I care", a: "ACTIONS", h: "You show it every day 💖" },
+  { q: "The answer that connects everything", a: "LOVE", h: "The answer is always love 💞" }
+];
+
+const gameCard = document.getElementById("gameCard");
+
+// Create the puzzle grid
+game.forEach((item, idx) => {
+  const rowDiv = document.createElement("div");
+  rowDiv.classList.add("grid-row");
+  
+  const clue = document.createElement("div");
+  clue.innerHTML = `<b>Clue ${idx+1}:</b> ${item.q}`;
+  rowDiv.appendChild(clue);
+
+  const lettersDiv = document.createElement("div");
+  lettersDiv.style.marginTop = "5px";
+
+  item.letterBoxes = []; // store letter input references
+
+  for (let i=0; i<item.a.length; i++) {
+    const input = document.createElement("input");
+    input.setAttribute("maxlength", "1");
+    input.classList.add("letter-box");
+    input.dataset.letter = item.a[i].toUpperCase();
+    input.addEventListener("input", () => {
+      const val = input.value.toUpperCase();
+      if(val === input.dataset.letter) {
+        input.classList.remove("wrong");
+        input.classList.add("correct");
+      } else {
+        input.classList.remove("correct");
+        input.classList.add("wrong");
+      }
+      checkComplete(item);
+    });
+    lettersDiv.appendChild(input);
+    item.letterBoxes.push(input);
+  }
+
+  rowDiv.appendChild(lettersDiv);
+
+  const hintBtn = document.createElement("button");
+  hintBtn.innerText = "Hint 💡";
+  hintBtn.classList.add("hint");
+  hintBtn.addEventListener("click", () => showHint(idx));
+  rowDiv.appendChild(hintBtn);
+
+  gameCard.appendChild(rowDiv);
+});
+
+// Check if all letters in a word are correct
+function checkComplete(item) {
+  const allCorrect = item.letterBoxes.every(box => box.value.toUpperCase() === box.dataset.letter);
+  if(allCorrect){
+    // Optional: you could add confetti or sound here
+  }
+  checkGameComplete();
+}
+
+// Check if the entire game is completed
+function checkGameComplete() {
+  const allDone = game.every(item => item.letterBoxes.every(box => box.value.toUpperCase() === box.dataset.letter));
+  if(allDone) {
+    gameCard.innerHTML = `
+      <h2>🎉 Happyyy Birthday Babyyy 🎉</h2>
+      <p>
+      This is a small way to show my love for you 💖<br><br>
+      Every clue, every answer, every hug in this game<br>
+      is a piece of my heart made just for you 🫶<br><br>
+      Thank you for being <b>YOU</b>.<br>
+      I love you endlessly ❤️
+      </p>
+      <p>Now come here… real hug required 🤗💋</p>
+    `;
+  }
+}
+
+// Hint popup
+function showHint(idx) {
+  document.getElementById("hintText").innerHTML = "🤗 <b>Hug required!</b><br><br>" + 
+    game[idx].h;
+  document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+</script>
+</body>
+</html>
