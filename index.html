@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Birthday Crossword ❤️</title>
+
+<style>
+body {
+  background:black;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+}
+
+h2 { margin-bottom:10px; }
+
+.crossword {
+  display:grid;
+  grid-template-columns: repeat(13, 42px);
+  grid-auto-rows:42px;
+  gap:2px;
+  margin:20px 0;
+}
+
+.cell {
+  background:white;
+  color:black;
+  border:1px solid black;
+  position:relative;
+}
+
+.cell input {
+  width:100%;
+  height:100%;
+  border:none;
+  outline:none;
+  text-align:center;
+  font-size:20px;
+  text-transform:uppercase;
+}
+
+.block { background:black; }
+
+.prefill {
+  font-weight:bold;
+  line-height:42px;
+  text-align:center;
+}
+
+.correct { background:#9ae6a0; }
+.wrong { background:#f2a3a3; }
+
+.number {
+  position:absolute;
+  top:2px;
+  left:3px;
+  font-size:10px;
+  font-weight:bold;
+}
+
+/* CLUES */
+.clues {
+  max-width:520px;
+  font-size:14px;
+}
+
+.clues h3 {
+  margin:15px 0 5px;
+}
+
+.clues div {
+  margin-bottom:8px;
+}
+
+button {
+  margin-left:6px;
+  cursor:pointer;
+}
+
+#hintBox {
+  margin-top:15px;
+  text-align:center;
+  color:#ffb6c1;
+  min-height:40px;
+}
+
+#finalMessage {
+  display:none;
+  margin-top:25px;
+  color:#ffb6c1;
+  text-align:center;
+  font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>❤️ Birthday Crossword ❤️</h2>
+
+<!-- CROSSWORD GRID (same as puzzle.org layout) -->
+<div class="crossword">
+
+<!-- ROW 1 -->
+<div class="cell"><span class="number">1</span><div class="prefill">A</div></div>
+<div class="cell"><input data-letter="C"></div>
+<div class="cell"><input data-letter="T"></div>
+<div class="cell"><input data-letter="I"></div>
+<div class="cell"><input data-letter="O"></div>
+<div class="cell"><input data-letter="N"></div>
+<div class="cell"><input data-letter="S"></div>
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+
+<!-- ROW 2 -->
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+<div class="cell"><span class="number">2</span><input data-letter="A"></div>
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+
+<!-- ROW 3 -->
+<div class="block"></div>
+<div class="cell"><span class="number">3</span><input data-letter="L"></div>
+<div class="cell"><input data-letter="I"></div>
+<div class="cell"><input data-letter="S"></div>
+<div class="cell"><input data-letter="T"></div>
+<div class="cell"><input data-letter="E"></div>
+<div class="cell"><input data-letter="N"></div>
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+
+<!-- ROW 4 -->
+<div class="block"></div><div class="block"></div><div class="block"></div>
+<div class="cell"><span class="number">4</span><input data-letter="L"></div>
+<div class="cell"><input data-letter="I"></div>
+<div class="block"></div>
+<div class="block"></div>
+<div class="cell"><span class="number">5</span><input data-letter="U"></div>
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+
+<!-- ROW 5 -->
+<div class="cell"><span class="number">6</span><input data-letter="T"></div>
+<div class="block"></div>
+<div class="cell"><span class="number">7</span><input data-letter="S"></div>
+<div class="cell"><input data-letter="I"></div>
+<div class="cell"><input data-letter="L"></div>
+<div class="cell"><input data-letter="E"></div>
+<div class="cell"><input data-letter="N"></div>
+<div class="cell"><input data-letter="C"></div>
+<div class="cell"><input data-letter="E"></div>
+<div class="block"></div>
+<div class="cell"><span class="number">9</span><input data-letter="S"></div>
+<div class="block"></div><div class="block"></div>
+
+<!-- ROW 6 -->
+<div class="cell"><span class="number">10</span><input data-letter="M"></div>
+<div class="cell"><input data-letter="A"></div>
+<div class="cell"><input data-letter="R"></div>
+<div class="cell"><input data-letter="R"></div>
+<div class="cell"><input data-letter="Y"></div>
+<div class="cell"><input data-letter="I"></div>
+<div class="cell"><input data-letter="N"></div>
+<div class="cell"><input data-letter="G"></div>
+<div class="block"></div>
+<div class="cell"><input data-letter="Y"></div>
+<div class="cell"><input data-letter="O"></div>
+<div class="cell"><input data-letter="U"></div>
+<div class="block"></div>
+
+<!-- ROW 7 -->
+<div class="cell"><span class="number">11</span><input data-letter="E"></div>
+<div class="block"></div><div class="block"></div><div class="block"></div>
+<div class="cell"><input data-letter="O"></div>
+<div class="block"></div>
+<div class="cell"><span class="number">8</span><input data-letter="G"></div>
+<div class="block"></div>
+<div class="cell"><input data-letter="I"></div>
+<div class="block"></div>
+<div class="cell"><input data-letter="U"></div>
+<div class="block"></div><div class="block"></div>
+
+</div>
+
+<!-- CLUES -->
+<div class="clues">
+<h3>Horizontal</h3>
+<div>1. Your way of saying “I care” <button onclick="showHint('ACTIONS','Because love shows, not just says ❤️')">💡</button></div>
+<div>3. What you do when I’m upset <button onclick="showHint('LISTEN','No fixing. Just listening 🤍')">💡</button></div>
+<div>7. What you do when you’re stressed <button onclick="showHint('SILENCE','Quiet, calm, powerful')">💡</button></div>
+<div>10. The best decision of my life <button onclick="showHint('MARRYING YOU','Still my favorite yes 💍')">💡</button></div>
+<div>12. Your favorite comfort food <button onclick="showHint('SAMBAR','Comfort in a bowl 🥣')">💡</button></div>
+
+<h3>Vertical</h3>
+<div>2. The trip that changed everything <button onclick="showHint('CATALINA ISLAND','One place, infinite memories 💙')">💡</button></div>
+<div>4. The answer that connects everything <button onclick="showHint('LOVE','Always this ❤️')">💡</button></div>
+<div>5. What I see when I imagine my future <button onclick="showHint('US','Same page. Same life.')">💡</button></div>
+<div>6. What you give when I need it most <button onclick="showHint('TIME','You never rush me')">💡</button></div>
+<div>8. Our favorite way to spend time together <button onclick="showHint('LONG TALKS','Hours that feel like minutes 🫶')">💡</button></div>
+<div>9. The nickname only I use for you <button onclick="showHint('SUBBU','Only mine 😌')">💡</button></div>
+<div>11. The reason my bad days don’t last long <button onclick="showHint('YOU','You fix everything')">💡</button></div>
+</div>
+
+<div id="hintBox"></div>
+
+<div id="finalMessage">
+💖 Happy Birthday babyyy 💖<br>
+This puzzle is literally *us* ❤️<br>
+Forever & always 🥰
+</div>
+
+<script>
+const inputs = Array.from(document.querySelectorAll("input"));
+
+inputs.forEach((input,i)=>{
+  input.addEventListener("input",()=>{
+    input.value=input.value.toUpperCase();
+    if(!input.value){input.className="";return;}
+    input.className=input.value===input.dataset.letter?"correct":"wrong";
+    if(i<inputs.length-1) inputs[i+1].focus();
+    checkWin();
+  });
+});
+
+function showHint(answer,message){
+  document.getElementById("hintBox").innerHTML =
+    `💡 <b>${answer}</b><br>${message}`;
+}
+
+function checkWin(){
+  for(let i of inputs){
+    if(i.value!==i.dataset.letter) return;
+  }
+  document.getElementById("finalMessage").style.display="block";
+}
+</script>
+
+</body>
+</html>
