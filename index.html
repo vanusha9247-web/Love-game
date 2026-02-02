@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Crossword ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+h2 { margin-bottom: 15px; }
+
+.crossword {
+  display: grid;
+  grid-template-columns: repeat(13, 40px);
+  grid-auto-rows: 40px;
+  gap: 2px;
+}
+
+.cell {
+  background: white;
+  color: black;
+  border: 1px solid black;
+  position: relative;
+}
+
+.cell input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  text-align: center;
+  font-size: 20px;
+  text-transform: uppercase;
+  background: transparent;
+}
+
+.block {
+  background: black;
+}
+
+.number {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.prefill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.correct { background: #9ae6a0 !important; }
+.wrong { background: #f2a3a3 !important; }
+
+.clues {
+  margin-top: 25px;
+  max-width: 520px;
+  font-size: 14px;
+}
+
+.clues h3 { margin: 10px 0 5px; }
+
+.clues div {
+  margin-bottom: 6px;
+}
+
+button {
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+#finalMessage {
+  display: none;
+  margin-top: 30px;
+  text-align: center;
+  font-size: 18px;
+  color: #ffb6c1;
+}
+</style>
+</head>
+
+<body>
+
+<h2>❤️ Birthday Crossword ❤️</h2>
+
+<div class="crossword">
+
+<!-- Row 1 -->
+<div class="cell prefill"><span class="number">1</span>A</div>
+<div class="cell"><input data-letter="C"></div>
+<div class="cell"><input data-letter="T"></div>
+<div class="cell"><input data-letter="I"></div>
+<div class="cell"><input data-letter="O"></div>
+<div class="cell"><input data-letter="N"></div>
+<div class="cell"><input data-letter="S"></div>
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+
+<!-- Row 2 -->
+<div class="block"></div><div class="block"></div><div class="block"></div>
+<div class="cell prefill">A</div>
+<div class="block"></div><div class="block"></div><div class="block"></div>
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+
+<!-- Row 3 -->
+<div class="cell prefill"><span class="number">3</span>L</div>
+<div class="cell"><input data-letter="I"></div>
+<div class="cell"><input data-letter="S"></div>
+<div class="cell"><input data-letter="T"></div>
+<div class="cell"><input data-letter="E"></div>
+<div class="cell"><input data-letter="N"></div>
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+
+<!-- Row 4 -->
+<div class="cell prefill"><span class="number">4</span>L</div>
+<div class="cell"><input data-letter="O"></div>
+<div class="cell"><input data-letter="V"></div>
+<div class="cell"><input data-letter="E"></div>
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+
+<!-- Row 5 -->
+<div class="cell prefill"><span class="number">6</span>T</div>
+<div class="cell"><input data-letter="I"></div>
+<div class="cell"><input data-letter="M"></div>
+<div class="cell"><input data-letter="E"></div>
+<div class="block"></div>
+<div class="cell prefill"><span class="number">7</span>S</div>
+<div class="cell"><input data-letter="I"></div>
+<div class="cell"><input data-letter="L"></div>
+<div class="cell"><input data-letter="E"></div>
+<div class="cell"><input data-letter="N"></div>
+<div class="cell"><input data-letter="C"></div>
+<div class="cell"><input data-letter="E"></div>
+<div class="block"></div>
+
+<!-- Row 6 -->
+<div class="cell prefill"><span class="number">10</span>M</div>
+<div class="cell"><input data-letter="A"></div>
+<div class="cell"><input data-letter="R"></div>
+<div class="cell"><input data-letter="R"></div>
+<div class="cell"><input data-letter="Y"></div>
+<div class="cell"><input data-letter="I"></div>
+<div class="cell"><input data-letter="N"></div>
+<div class="cell"><input data-letter="G"></div>
+<div class="block"></div>
+<div class="cell prefill">Y</div>
+<div class="cell"><input data-letter="O"></div>
+<div class="cell"><input data-letter="U"></div>
+<div class="block"></div>
+
+<!-- Row 7 -->
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+<div class="cell prefill"><span class="number">8</span>L</div>
+<div class="cell"><input data-letter="O"></div>
+<div class="cell"><input data-letter="N"></div>
+<div class="cell"><input data-letter="G"></div>
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+
+<!-- Row 8 -->
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+<div class="cell prefill"><span class="number">11</span>T</div>
+<div class="cell"><input data-letter="A"></div>
+<div class="cell"><input data-letter="L"></div>
+<div class="cell"><input data-letter="K"></div>
+<div class="cell"><input data-letter="S"></div>
+<div class="block"></div><div class="block"></div><div class="block"></div>
+
+<!-- Row 9 -->
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+<div class="cell prefill"><span class="number">12</span>C</div>
+<div class="cell"><input data-letter="A"></div>
+<div class="cell"><input data-letter="T"></div>
+<div class="cell"><input data-letter="A"></div>
+<div class="cell"><input data-letter="L"></div>
+<div class="cell"><input data-letter="I"></div>
+<div class="cell"><input data-letter="N"></div>
+<div class="cell"><input data-letter="A"></div>
+
+<!-- Row 10 -->
+<div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+<div class="cell"><input data-letter="I"></div>
+<div class="cell"><input data-letter="S"></div>
+<div class="cell"><input data-letter="L"></div>
+<div class="cell"><input data-letter="A"></div>
+<div class="cell"><input data-letter="N"></div>
+<div class="cell"><input data-letter="D"></div>
+<div class="block"></div>
+
+</div>
+
+<div class="clues">
+<h3>Horizontal</h3>
+<div>1. Your way of saying “I care” <button onclick="hint()">💡</button></div>
+<div>3. What you do when I’m upset <button onclick="hint()">💡</button></div>
+<div>4. The answer that connects everything <button onclick="hint()">💡</button></div>
+<div>6. What you give when I need it most <button onclick="hint()">💡</button></div>
+<div>7. What you do when you’re stressed <button onclick="hint()">💡</button></div>
+<div>8. Our favorite way to spend time together <button onclick="hint()">💡</button></div>
+<div>10. The best decision of my life <button onclick="hint()">💡</button></div>
+<div>11. What we do best together <button onclick="hint()">💡</button></div>
+<div>12. The trip that changed everything <button onclick="hint()">💡</button></div>
+
+<h3>Vertical</h3>
+<div>2. Your favorite comfort food <button onclick="hint()">💡</button></div>
+<div>5. What I see when I imagine my future <button onclick="hint()">💡</button></div>
+<div>9. The nickname only I use for you <button onclick="hint()">💡</button></div>
+</div>
+
+<div id="finalMessage">
+💖 Happy Birthday babyyy 💖<br>
+This crossword is a small way to show my love ❤️<br>
+Forever us 🥰
+</div>
+
+<script>
+const inputs = Array.from(document.querySelectorAll("input"));
+
+inputs.forEach((input, index) => {
+  input.addEventListener("input", () => {
+    const correct = input.dataset.letter;
+    const value = input.value.toUpperCase();
+    input.value = value;
+
+    if (!value) {
+      input.className = "";
+      return;
+    }
+
+    input.className = value === correct ? "correct" : "wrong";
+
+    if (index < inputs.length - 1) {
+      inputs[index + 1].focus();
+    }
+
+    checkWin();
+  });
+});
+
+function hint() {
+  alert("🤗 Give me a hug to unlock this hint!");
+}
+
+function checkWin() {
+  for (let i of inputs) {
+    if (i.value !== i.dataset.letter) return;
+  }
+  document.getElementById("finalMessage").style.display = "block";
+}
+</script>
+
+</body>
+</html>
